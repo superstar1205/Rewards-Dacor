@@ -1,0 +1,157 @@
+%!Adobe-FontList 1.19
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Neutraface2Text-Demi
+FamilyName:Neutraface 2 Text Demi
+StyleName:Regular
+MenuName:Neutraface 2 Text Demi
+StyleBits:0
+WeightClass:600
+WidthClass:5
+AngleClass:0
+FullName:Neutraface 2 Text Demi
+WritingScript:Roman
+OutlineFileName:\Neutra2Text-Demi-LF.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:115444
+FileModTime:1519654630
+NameArray:0,Mac,4,Neutraface 2 Text Demi
+NameArray:0,Win,1,Neutraface 2 Text Demi
+NameArray:0,Win,16,Neutraface 2 Text Demi
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Neutraface2Text-Book
+FamilyName:Neutraface 2 Text Book
+StyleName:Book Regular
+MenuName:Neutraface 2 Text Book
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Neutraface 2 Text Book
+WritingScript:Roman
+OutlineFileName:\Neutra2Text-Book-LF.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:114916
+FileModTime:1519654630
+NameArray:0,Mac,4,Neutraface 2 Text Book
+NameArray:0,Win,1,Neutraface 2 Text Book
+NameArray:0,Win,16,Neutraface 2 Text Book
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:ACaslonPro-Italic
+FamilyName:Adobe Caslon Pro
+StyleName:Italic
+MenuName:Adobe Caslon Pro
+StyleBits:1
+WeightClass:400
+WidthClass:5
+AngleClass:1
+FullName:Adobe Caslon Pro Italic
+WritingScript:Roman
+OutlineFileName:\ACaslonPro-Italic.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:167264
+FileModTime:1066093610
+NameArray:0,Mac,4,Adobe Caslon Pro Italic
+NameArray:0,Win,1,Adobe Caslon Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:ACaslonPro-Regular
+FamilyName:Adobe Caslon Pro
+StyleName:Regular
+MenuName:Adobe Caslon Pro
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Adobe Caslon Pro
+WritingScript:Roman
+OutlineFileName:\ACaslonPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:161820
+FileModTime:1066093610
+NameArray:0,Mac,4,Adobe Caslon Pro
+NameArray:0,Win,1,Adobe Caslon Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:MinionPro-Regular
+FamilyName:Minion Pro
+StyleName:Regular
+MenuName:Minion Pro
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Minion Pro
+WritingScript:Roman
+OutlineFileName:\MinionPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:218640
+FileModTime:1519727695
+DesignSize:110
+NameArray:0,Mac,4,Minion Pro
+NameArray:0,Win,1,Minion Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Neutraface2Text-Bold
+FamilyName:Neutraface 2 Text Bold
+StyleName:Regular
+MenuName:Neutraface 2 Text Bold
+StyleBits:0
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:Neutraface 2 Text Bold
+WritingScript:Roman
+OutlineFileName:\Neutra2Text-Bold-LF.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:111468
+FileModTime:1519654630
+NameArray:0,Mac,4,Neutraface 2 Text Bold
+NameArray:0,Win,1,Neutraface 2 Text Bold
+NameArray:0,Win,16,Neutraface 2 Text Bold
+%EndFont
+
