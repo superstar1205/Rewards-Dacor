@@ -14,7 +14,7 @@
                     <a href="#contact" class="nav-link" style="color:white">{{$lang->h_link_3}}</a>
                 </div>
                 <div class="nav-item px-1">
-                    <a class="nav-link" id="cglang" style="color:white"><form method="POST" action="{{route('changelang')}}">@csrf<input type="hidden" class="" name="lgflag" value="{{$lang->lang}}"><input type="hidden" name="memberid" value="{{$uth->memberid}}" ><button class="lanbtn" type="submit">{{$lang->h_link_4}}</button></form></a>
+                    <a class="nav-link" id="cglang" style="color:white"><form method="GET" action="{{route('changelang')}}">@csrf<input type="hidden" class="" name="lgflag" value="{{$lang->lang}}"><input type="hidden" name="memberid" value="{{$uth->memberid}}" ><button class="lanbtn" type="submit">{{$lang->h_link_4}}</button></form></a>
                 </div>    
         </div>
     </div>
@@ -66,138 +66,135 @@
             </div>
             <div id ="sales_submit"  class="pt-5 mt-5">
             <div class="card">
-                <form method="post" action="{{ route('sendinvoice') }}" enctype="multipart/form-data" class="was-validated card-body m-2">
+                <form method="POST" action="{{ route('sendinvoice') }}" enctype="multipart/form-data" class="was-validated card-body m-2">
                 @csrf
                     <h3 class="text-start p-3">{{$lang->h_link_1}}</h3>
                     <p class="f4 text-justify">Enter all required information along with a copy of the sales invoice below. Remember, only sales that have been delivered can be approved. Please keep PDF to a max of 5MB. Thank you for Submission</p>
                     <input type="hidden" id="memberuth" name="memberuth" class="memberuth" value="{{$uth->memberid}}">
                     <input type="hidden" id="langf" name="lgflag" value="{{$lang->lang}}">
                     <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100"><b>{{$lang->in_t01}}:</b></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 snum" id="snum" name="snum" value='<?php if($maxsn[0]->maxsn == ""){echo('10000001');}else{
-                                    $sn=(int)$maxsn[0]->maxsn;
-                                    echo($sn+1);
-                                }?> ' type="text" placeholder="{{$lang->in_t01}}" disabled>
-                            </div>
+                        <div class="col-sm-6">
+                            <p class="f4 w-100"><b>{{$lang->in_t01}} :</b></p>
                         </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 snum" id="snum" name="snum" value="{{ $maxsn }}" type="text" placeholder="{{$lang->in_t01}}" disabled>
+                        </div>
+                    </div>
 
-                        
+                    
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100"><b>{{$lang->in_t02}}:</b></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 innum" id="innum" name="innum" type="text" placeholder="{{$lang->in_t02}}" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                    </div>
+                    
                         <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100"><b>{{$lang->in_t02}}:</b></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 innum" id="innum" name="innum" type="text" placeholder="{{$lang->in_t02}}" required>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">Please fill out this field.</div>
-                            </div>
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t03}}:</p>
                         </div>
-                        
-                         <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t03}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 indate" id="indate" type="date" required>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">Please fill out this field.</div>
-                            </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 indate" id="indate" type="date" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
+                    </div>
 
-                        
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t04}}</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 infile" id="infile" name="file" type="file" placeholder="link" required>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">Please fill out this field.</div>
-                            </div>
+                    
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t04}}</p>
                         </div>
-                        <hr>
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t05}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 series" id="series" type="text" placeholder="{{$lang->in_t05}}" require>
-                            </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 infile" id="infile" name="file" type="file" placeholder="link" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t06}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 dedate" id="dedate" type="date" require>
-                            </div>
+                    </div>
+                    <hr>
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t05}}:</p>
                         </div>
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t07}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 mdnum" id="mdnum" type="text" placeholder="{{$lang->in_t07}}" require>
-                                <div class="table-responsive restb">
-                                    <table class="tbl table table-centered table-nowrap">
-                                        <tbody id="skulist"><tr><td>model number list</td></tr></tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 series" id="series" type="text" placeholder="{{$lang->in_t05}}" require>
                         </div>
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t08}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 prodes" id="prodes" type="text" placeholder="{{$lang->in_t08}}" disabled>
-                            </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t06}}:</p>
                         </div>
-                        
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t09}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 spiff" id="spiff" type="text" placeholder="{{$lang->in_t09}}" disabled>
-                            </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 dedate" id="dedate" type="date" require>
                         </div>
-
-                        <div class="row m-1">
-                            <div class="col-sm-6">
-                                <p class="f4 w-100">{{$lang->in_t10}}:</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control w-100 salepricce" id="saleprice" type="text" placeholder="{{$lang->in_t10}}" >
-                            </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t07}}:</p>
                         </div>
-                        <div class="row justify-content-end"><div class="col-md-6"><a id="add_salepro" class="w-100 btn btn-secondary p-3 ">{{$lang->in_t12}}</a></div></div>
-                        <div class="row py-3">
-                            <div class="table-responsive">
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 mdnum" id="mdnum" type="text" placeholder="{{$lang->in_t07}}" require>
+                            <div class="table-responsive restb">
                                 <table class="tbl table table-centered table-nowrap">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-center" style="width: 5%;">#</th>
-                                            <th class="text-center" style="width: 10%;">{{$lang->in_t07}}</th>
-                                            <th class="text-center" style="width: 45%;">{{$lang->in_t08}}</th>
-                                            <th class="text-center" style="width: 10%;">{{$lang->in_t09}}</th>
-                                            <th class="text-center" style="width: 10%;">{{$lang->in_t10}}</th>
-                                            <th class="text-center" style="width: 20%;">{{$lang->in_t05}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="protbl"></tbody>
+                                    <tbody id="skulist"><tr><td>model number list</td></tr></tbody>
                                 </table>
                             </div>
-                            <button id="" type="submit" class="btn btn-secondary p-3">Submit Invoice</button>
                         </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t08}}:</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 prodes" id="prodes" type="text" placeholder="{{$lang->in_t08}}" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t09}}:</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 spiff" id="spiff" type="text" placeholder="{{$lang->in_t09}}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row m-1">
+                        <div class="col-sm-6">
+                            <p class="f4 w-100">{{$lang->in_t10}}:</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control w-100 salepricce" id="saleprice" type="text" placeholder="{{$lang->in_t10}}" >
+                        </div>
+                    </div>
+                    <div class="row justify-content-end"><div class="col-md-6"><a id="add_salepro" class="w-100 btn btn-secondary p-3 ">{{$lang->in_t12}}</a></div></div>
+                    <div class="row py-3">
+                        <div class="table-responsive">
+                            <table class="tbl table table-centered table-nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 5%;">#</th>
+                                        <th class="text-center" style="width: 10%;">{{$lang->in_t07}}</th>
+                                        <th class="text-center" style="width: 45%;">{{$lang->in_t08}}</th>
+                                        <th class="text-center" style="width: 10%;">{{$lang->in_t09}}</th>
+                                        <th class="text-center" style="width: 10%;">{{$lang->in_t10}}</th>
+                                        <th class="text-center" style="width: 20%;">{{$lang->in_t05}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="protbl"></tbody>
+                            </table>
+                        </div>
+                        <button id="" type="submit" class="btn btn-secondary p-3">Submit Invoice</button>
+                    </div>
                 </form>
-            </div>
             </div>
         </div>
     </div>
+</div>
     <div id="rule" class="py-5">
         <div class="container py-5">
             <div class="card bg-dark bg-gradient">
@@ -422,7 +419,7 @@
                 }
             });
             $.ajax({
-                url: "{{ route('saleproduct') }}",
+                url: "{{ route('addproduct') }}",
                 type: "POST",
                 data: { memberid:memberid, model: oid, description: description, spiff:spiff, series: series, sale_num : sale_num, in_num: in_num, in_date : in_date, de_date: de_date, sale_price: sale_price },
                 dataType: "json",

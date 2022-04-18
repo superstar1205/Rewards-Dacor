@@ -18,7 +18,12 @@ class UserController extends Controller
             $langef='français';
             $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$langef."'");
             $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' GROUP BY sale_num");
-            $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+            $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+            if(sizeof($maxsn1)==0){
+                $maxsn=10000000;
+            }else{ $maxsn=((int) $maxsn1[0]->maxsn)+1; }
+
+            DB::insert("INSERT INTO `invoices` (sale_num, member_id) value(?,?)", [$maxsn, $memberid]);
             $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$memberid."' and status='1'");
             $data = [
                 'uth' => $uth[0],
@@ -58,7 +63,7 @@ class UserController extends Controller
     ///////////////////////////////////////////////////
     // Add Product on the DB //////////////////////////
     ///////////////////////////////////////////////////
-    public function saleproduct(Request $request){
+    public function addproduct(Request $request){
 
         $member_id = $request->input('memberid');
         $sale_num = $request->input('sale_num');
@@ -70,6 +75,7 @@ class UserController extends Controller
         $spiff = $request->input('spiff');
         $series = $request->input('series');
         $sale_price = $request->input('sale_price');
+        DB::delete("DELETE FROM `invoices` WHERE member_id ='".$member_id."' AND in_num IS NULL");
         DB::insert("INSERT INTO `invoices` (sale_num, member_id, in_num, in_date, de_date, model_num, description, spiff, series, sale_price) value(?,?,?,?,?,?,?,?,?,?)", [$sale_num, $member_id, $in_num, $in_date, $de_date, $model_num, $description, $spiff, $series, $sale_price]);
         $results = DB::select("SELECT * FROM `invoices` WHERE sale_num ='".$sale_num."' AND member_id = '".$member_id."'");
         $data = [
@@ -90,7 +96,7 @@ class UserController extends Controller
         $fileName = $in_num.'.'.$request->file->extension();  
         $request->file->move(public_path('uploads'), $fileName);
         $filePath = "public/uploads/".$fileName;
-        DB::update("UPDATE `invoices` SET file_path =? WHERE in_num =?", [$filePath, $in_num]);
+        DB::update("UPDATE `invoices` SET file_path =? WHERE sale_num =?", [$filePath, $in_num]);
         $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$member_id."' GROUP BY sale_num");
         $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$member_id."'");
         $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
@@ -108,7 +114,7 @@ class UserController extends Controller
             'uth' => $uth[0],
             'totalsp' =>$totalsp,
             'invresult' => $invresult,
-            'maxsn' => $maxsn,
+            'maxsn' => $maxsn[0]->maxsn,
             'msg' => $msg,
             'lang' =>$lang
         ];
@@ -141,7 +147,7 @@ class UserController extends Controller
             'uth' => $uth[0],
             'totalsp' =>$totalsp,
             'invresult' => $invresult,
-            'maxsn' => $maxsn,
+            'maxsn' => $maxsn[0]->maxsn,
             'msg' => $msg,
             'lang' =>$lang
         ];
@@ -164,7 +170,7 @@ class UserController extends Controller
             'uth' => $uth[0],
             'totalsp' =>$totalsp,
             'invresult' => $invresult,
-            'maxsn' => $maxsn,
+            'maxsn' => $maxsn[0]->maxsn,
             'msg' => $msg,
             'lang' => $textlng[0]
         ];

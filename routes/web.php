@@ -22,7 +22,7 @@ Route::post('/home', [UserController::class, 'home'])->name('home');
 Route::post('/getproduts', [UserController::class, 'getproduts'])->name('getproduts');
 Route::post('/getdetailinv', [UserController::class, 'getdetailinv'])->name('getdetailinv');
 
-Route::post('/saleproduct', [UserController::class, 'saleproduct'])->name('saleproduct');
+Route::post('/addproduct', [UserController::class, 'addproduct'])->name('addproduct');
 Route::post('/sendinvoice', [UserController::class, 'sendinvoice'])->name('sendinvoice');
 
 Route::post('/sendtemail', [UserController::class, 'sendtemail'])->name('sendtemail');
