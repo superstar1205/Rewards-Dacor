@@ -12,7 +12,7 @@
 
 ## Rewards Dacor
 
-- ![Frame 1.png] (e:\Account info\Photofolio\rewards\Frame 1.png)
+- ![Frame 1.png] (/resources/imgs/Frame 1.png)
 
 ## About Laravel
 
