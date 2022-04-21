@@ -1,3 +1,14 @@
+##Rewards Dacor
+
+It's a Laravel & MySQl with Bootstrap projet for submitting invoices.
+
+all are full-responsive.
+![Frame 1](https://user-images.githubusercontent.com/86986628/164356698-40a364cc-2e0d-4e92-8526-e6f0692851d2.png)
+![Frame 2](https://user-images.githubusercontent.com/86986628/164356712-6048cf6a-5229-4301-af50-c8a6ce38c2b1.png)
+![Frame 3](https://user-images.githubusercontent.com/86986628/164357061-44f87955-83b1-4d31-a8ba-c924ed589375.png)
+![Frame 4](https://user-images.githubusercontent.com/86986628/164357125-7c89756c-a752-4536-8975-e639f02512f9.png)
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
@@ -7,12 +18,6 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-
-
-
-## Rewards Dacor
-
-- ![Frame 1.png] (/resources/imgs/Frame 1.png)
 
 ## About Laravel
 
