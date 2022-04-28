@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     //
-    public function home(Request $request){
+    public function ellogin(){
+        return view('ellogin');
+    }
+    public function fllogin(){
+        return view('fllogin');
+    }
+    public function ehome(Request $request){
         $memberid = $request->input('memberid');
         $password = $request->input('password');
         $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$memberid."' AND password='".$password."'");
@@ -17,13 +23,19 @@ class UserController extends Controller
             $msg = "start";
             $langef='français';
             $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$langef."'");
-            $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' GROUP BY sale_num");
-            $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
-            if(sizeof($maxsn1)==0){
-                $maxsn=10000000;
-            }else{ $maxsn=((int) $maxsn1[0]->maxsn)+1; }
-
-            DB::insert("INSERT INTO `invoices` (sale_num, member_id) value(?,?)", [$maxsn, $memberid]);
+            $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' AND in_num IS NOT NULL GROUP BY sale_num");
+            $rf = DB::select("SELECT * FROM `invoices` WHERE member_id='".$memberid."' AND in_num IS NULL");
+            if(sizeof($rf)>0){
+                $maxsn = $rf[0]->sale_num;
+            }else{
+                $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+                if($maxsn1[0]->maxsn==0){
+                    $maxsn='10000000';
+                }else{ 
+                    $maxsn=((int) $maxsn1[0]->maxsn)+1; 
+                }
+                DB::insert("INSERT INTO `invoices` (sale_num, member_id) value(?,?)", [$maxsn, $memberid]);
+            }
             $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$memberid."' and status='1'");
             $data = [
                 'uth' => $uth[0],
@@ -35,7 +47,44 @@ class UserController extends Controller
             ];
             return view('home')->with($data);
         }else{
-            return view('welcome');
+            return view('ellogin');
+        }
+    }
+
+
+    public function fhome(Request $request){
+        $memberid = $request->input('memberid');
+        $password = $request->input('password');
+        $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$memberid."' AND password='".$password."'");
+        if(sizeof($uth)==1){
+            $msg = "start";
+            $langef='English';
+            $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$langef."'");
+            $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' AND in_num IS NOT NULL GROUP BY sale_num");
+            $rf = DB::select("SELECT * FROM `invoices` WHERE member_id='".$memberid."' AND in_num IS NULL");
+            if(sizeof($rf)>0){
+                $maxsn = $rf[0]->sale_num;
+            }else{
+                $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+                if($maxsn1[0]->maxsn==0){
+                    $maxsn='10000000';
+                }else{ 
+                    $maxsn=((int) $maxsn1[0]->maxsn)+1; 
+                }
+                DB::insert("INSERT INTO `invoices` (sale_num, member_id) value(?,?)", [$maxsn, $memberid]);
+            }
+            $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$memberid."' and status='1'");
+            $data = [
+                'uth' => $uth[0],
+                'totalsp' =>$totalsp,
+                'invresult' => $invresult,
+                'maxsn' => $maxsn,
+                'msg' => $msg,
+                'lang' => $textlng[0]
+            ];
+            return view('home')->with($data);
+        }else{
+            return view('fllogin');
         }
     }
     ///////////////////////////////////////////////////
@@ -89,6 +138,7 @@ class UserController extends Controller
     ///////////////////////////////////////////////////
     public function sendinvoice (Request $request){
         $member_id = $request->input('memberuth');
+        $sale_num = $request->input('salenum');
         $in_num = $request->input('innum');
         $request->validate([
             'file' => 'required|mimes:pdf,jpg,png|max:5242880',
@@ -96,11 +146,13 @@ class UserController extends Controller
         $fileName = $in_num.'.'.$request->file->extension();  
         $request->file->move(public_path('uploads'), $fileName);
         $filePath = "public/uploads/".$fileName;
-        DB::update("UPDATE `invoices` SET file_path =? WHERE sale_num =?", [$filePath, $in_num]);
-        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$member_id."' GROUP BY sale_num");
+        DB::update("UPDATE `invoices` SET file_path =? WHERE sale_num =?", [$filePath, $sale_num]);
+        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$member_id."' AND in_num IS NOT NULL GROUP BY sale_num");
         $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$member_id."'");
-        $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
         $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$member_id."' and status='1'");
+        $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+        $maxsn = ((int) $maxsn1[0]->maxsn)+1;
+        DB::insert("INSERT INTO `invoices` (sale_num, member_id) value(?,?)", [$maxsn, $member_id]);
         $lgflag = $request->input('lgflag');
         $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$lgflag."'");
         if($lgflag =='français' ){
@@ -114,7 +166,7 @@ class UserController extends Controller
             'uth' => $uth[0],
             'totalsp' =>$totalsp,
             'invresult' => $invresult,
-            'maxsn' => $maxsn[0]->maxsn,
+            'maxsn' => $maxsn,
             'msg' => $msg,
             'lang' =>$lang
         ];
@@ -128,13 +180,14 @@ class UserController extends Controller
         $cemail = $request->input('cemail');
         $ctitle = $request->input('ctitle');
         $ctext = $request->input('ctext');
-        $to="mulanohs@gmail.com";
+        $to="James@gristmill.ca";
         $headers="From: ".$cemail. "\r\n"."CC: somebodyelse@example.com";
         mail($to, $ctitle, $ctext, $headers);
         $msg="Mail send success!";
-        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' GROUP BY sale_num");
+        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' AND in_num IS NOT NULL GROUP BY sale_num");
         $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$memberid."'");
-        $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+        $maxsn1 = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices` WHERE member_id='".$memberid."'");
+        $maxsn = (int) $maxsn1[0]->maxsn;
         $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$memberid."' and status='1'");
         $lgflag = $request->input('lgflag');
         $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$lgflag."'");
@@ -147,7 +200,7 @@ class UserController extends Controller
             'uth' => $uth[0],
             'totalsp' =>$totalsp,
             'invresult' => $invresult,
-            'maxsn' => $maxsn[0]->maxsn,
+            'maxsn' => $maxsn,
             'msg' => $msg,
             'lang' =>$lang
         ];
@@ -163,8 +216,8 @@ class UserController extends Controller
         if($lgflag=='français'){$langf='English';}else{$langf='français';}
         $textlng = DB::select("SELECT * FROM `lang` WHERE lang='".$langf."'");
         $uth = DB::select("SELECT * FROM `members` WHERE memberid='".$memberid."'");
-        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' GROUP BY sale_num");
-        $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices`");
+        $invresult = DB::select("SELECT *, COUNT(sale_num)AS tsnum, SUM(spiff) AS tspiff, SUM(sale_price)AS tsale FROM `invoices` WHERE member_id = '".$memberid."' AND in_num IS NOT NULL GROUP BY sale_num");
+        $maxsn = DB::select("SELECT MAX(sale_num) AS maxsn FROM `invoices` WHERE member_id='".$memberid."'");
         $totalsp = DB::select("SELECT SUM(spiff) AS tospiff FROM `invoices` WHERE member_id = '".$memberid."' and status='1'");
         $data = [
             'uth' => $uth[0],
